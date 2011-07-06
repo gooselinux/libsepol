@@ -1,0 +1,34 @@
+Only in libsepol-2.0.41: #ChangeLog#
+diff -u -r nsalibsepol/src/libsepol.pc.in libsepol-2.0.41/src/libsepol.pc.in
+--- nsalibsepol/src/libsepol.pc.in	2009-11-02 12:58:30.000000000 -0500
++++ libsepol-2.0.41/src/libsepol.pc.in	2010-02-18 10:02:35.000000000 -0500
+@@ -1,6 +1,6 @@
+ prefix=@prefix@
+ exec_prefix=${prefix}
+-libdir=${exec_prefix}/lib
++libdir=${exec_prefix}/@libdir@
+ includedir=@includedir@
+ 
+ Name: libsepol
+Only in libsepol-2.0.41/src: libsepol.pc.in~
+diff -u -r nsalibsepol/src/Makefile libsepol-2.0.41/src/Makefile
+--- nsalibsepol/src/Makefile	2009-11-02 12:58:30.000000000 -0500
++++ libsepol-2.0.41/src/Makefile	2010-02-18 10:04:51.000000000 -0500
+@@ -3,6 +3,7 @@
+ INCLUDEDIR ?= $(PREFIX)/include
+ LIBDIR ?= $(PREFIX)/lib
+ SHLIBDIR ?= $(DESTDIR)/lib
++LIBBASE=$(shell basename $(LIBDIR))
+ 
+ VERSION = $(shell cat ../VERSION)
+ LIBVERSION = 1
+@@ -27,7 +28,7 @@
+ 	ln -sf $@ $(TARGET) 
+ 
+ $(LIBPC): $(LIBPC).in
+-	sed -e 's/@VERSION@/$(VERSION)/; s:@prefix@:$(PREFIX):; s:@libdir@:$(LIBDIR):; s:@includedir@:$(INCLUDEDIR):' < $< > $@
++	sed -e 's/@VERSION@/$(VERSION)/; s:@prefix@:$(PREFIX):; s:@libdir@:$(LIBBASE):; s:@includedir@:$(INCLUDEDIR):' < $< > $@
+ 
+ %.o:  %.c 
+ 	$(CC) $(CFLAGS) -fPIC -c -o $@ $<
+Only in libsepol-2.0.41/src: Makefile~
